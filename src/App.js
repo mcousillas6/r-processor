@@ -12,7 +12,8 @@ const runApp = () => {
     app.use(cors());
     app.use(bodyParser.json());
     app.post('/api/queue', async (req, res) => {
-      await rScriptQueue.add({ file_path: req.body.file_path });
+      const { file_location: fileLocation, upload_id: uploadId } = req.body;
+      await rScriptQueue.add({ fileLocation, uploadId });
       res.send({ status: 'Enqueued' });
     });
     app.listen(port, () => {
