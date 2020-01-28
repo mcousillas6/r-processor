@@ -8,6 +8,7 @@ module.exports = async ({ data: { fileLocation, uploadId } }) => {
     FILE_LOCATION: fileLocation,
     UPLOAD_ID: uploadId,
   };
+
   try {
     await runRScript('background_process.r', env);
     logger.info('Script finished with options: ', fileLocation, uploadId);

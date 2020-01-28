@@ -13,8 +13,12 @@ const runApp = () => {
     app.use(bodyParser.json());
     app.post('/api/queue', async (req, res) => {
       const { file_location: fileLocation, upload_id: uploadId } = req.body;
-      await rScriptQueue.add({ fileLocation, uploadId });
-      res.send({ status: 'Enqueued' });
+      try {
+        await rScriptQueue.add({ fileLocation, uploadId });
+        res.send({ status: 'Enqueued' });
+      } catch (error) {
+        res.send({ error });
+      }
     });
     app.listen(port, () => {
       logger.info(`Server started on port ${port}`);

@@ -3,8 +3,8 @@ module.exports = {
     name: 'R-Processor',
     script: 'index.js',
     instances: 'max',
-    exec_mode: 'cluster_mode',
     autorestart: true,
+    watch: false,
     max_memory_restart: '1G',
     env: {
       NODE_ENV: 'development',
@@ -13,4 +13,10 @@ module.exports = {
       NODE_ENV: 'production',
     },
   }],
+  deploy: {
+    production: {
+      user: 'node',
+      host: '212.83.163.1',
+    },
+  },
 };
