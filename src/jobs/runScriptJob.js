@@ -5,12 +5,13 @@ module.exports = async ({ data: { fileLocation, uploadId } }) => {
   logger.info('Running script with options:', fileLocation, uploadId);
 
   const env = {
-    ...process.env,
     FILE_LOCATION: fileLocation,
     UPLOAD_ID: uploadId,
   };
-
-  runRScript('background_process.r', env, (code) => {
-    logger.info('Job finished with code:', code);
-  });
+  try {
+    await runRScript('background_process.r', env);
+    logger.info('Script finished with options: ', fileLocation, uploadId);
+  } catch (error) {
+    logger.error('Script failed with error: ', error);
+  }
 };

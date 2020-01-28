@@ -3,9 +3,8 @@ module.exports = {
     name: 'R-Processor',
     script: 'index.js',
     instances: 'max',
-    exec_mode: 'cluster',
+    exec_mode: 'cluster_mode',
     autorestart: true,
-    watch: true,
     max_memory_restart: '1G',
     env: {
       NODE_ENV: 'development',

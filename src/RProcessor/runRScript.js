@@ -1,17 +1,20 @@
-const { spawnSync } = require('child_process');
+const { spawn } = require('child_process');
 
-const runRScript = (path, env, onExit = () => null) => {
-  const opts = {
-    env: env || process.env,
-  };
-
+const runRScript = (path, env) => new Promise((resolve, reject) => {
   const RCall = ['--no-restore', '--no-save', path];
+  const child = spawn('Rscript', RCall, { ...process.env, ...env });
 
-  const R = spawnSync('Rscript', RCall, opts);
+  let errorEmitted = false;
 
-  R.on('exit', (code) => {
-    onExit(code);
+  child.on('error', (error) => {
+    errorEmitted = true;
+    reject(error);
   });
-};
+
+  child.on('exit', () => {
+    if (errorEmitted) return; // debounce - already rejected
+    resolve();
+  });
+});
 
 module.exports = runRScript;
