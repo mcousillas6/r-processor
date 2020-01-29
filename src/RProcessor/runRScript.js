@@ -1,8 +1,10 @@
 const { spawn } = require('child_process');
+const path = require('path');
 
-const runRScript = (path, ...args) => new Promise((resolve, reject) => {
-  const RCall = ['--no-restore', '--no-save', path, ...args];
-  const child = spawn('Rscript', RCall, { ...process.env });
+const runRScript = (script, ...args) => new Promise((resolve, reject) => {
+  const RCall = ['--no-restore', '--no-save', script, ...args];
+
+  const child = spawn('Rscript', RCall, { ...process.env, cwd: path.resolve('src', 'RCore') });
 
   let errorEmitted = false;
 
